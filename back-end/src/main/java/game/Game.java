@@ -51,6 +51,19 @@ public class Game {
         return new Game(this.board.updateCell(x, y, this.player), nextPlayer, newHistory);
     }
 
+    // Undo the last move played.
+    public Game undo() {
+        if (this.history.isEmpty()) {
+            return this;
+        } else {
+            // Get the previous game state
+            Game previousGame = this.history.get(this.history.size() - 1);
+            List<Game> newHistory = new ArrayList<>(this.history.subList(0, this.history.size() - 1));
+            // Return the previous game state with the shortened history
+            return new Game(previousGame.board, previousGame.player, newHistory);
+        }
+    }
+
     public Player getWinner() {
         for (int row = 0; row < 3; row++)
             if (board.getCell(row, 0) != null && board.getCell(row, 0) == board.getCell(row, 1)
