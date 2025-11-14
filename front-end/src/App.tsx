@@ -1,4 +1,5 @@
 import React from 'react';
+import 'animate.css'; // import animate.css library
 import './App.css'; // import the css file to enable your styles.
 import { GameState, Cell } from './game';
 import BoardCell from './Cell';
@@ -43,9 +44,22 @@ class App extends React.Component<Props, GameState> {
    * just an issue of Javascript.
    */
   newGame = async () => {
-    const response = await fetch('/newgame');
-    const json = await response.json();
-    this.setState({ cells: json['cells'] });
+    // Add loading animation effect
+    const board = document.getElementById('board');
+    if (board) {
+      board.classList.add('animate__animated', 'animate__fadeOut');
+      setTimeout(async () => {
+        const response = await fetch('/newgame');
+        const json = await response.json();
+        this.setState({ cells: json['cells'] });
+        board.classList.remove('animate__fadeOut');
+        board.classList.add('animate__fadeIn');
+      }, 300);
+    } else {
+      const response = await fetch('/newgame');
+      const json = await response.json();
+      this.setState({ cells: json['cells'] });
+    }
   }
 
   /**
@@ -53,9 +67,22 @@ class App extends React.Component<Props, GameState> {
    */
 
   undo = async () => {
-    const response = await fetch('/undo');
-    const json = await response.json();
-    this.setState({ cells: json['cells'] });
+    // Add undo animation effect
+    const board = document.getElementById('board');
+    if (board) {
+      board.classList.add('animate__animated', 'animate__backOutUp');
+      setTimeout(async () => {
+        const response = await fetch('/undo');
+        const json = await response.json();
+        this.setState({ cells: json['cells'] });
+        board.classList.remove('animate__backOutUp');
+        board.classList.add('animate__backInDown');
+      }, 300);
+    } else {
+      const response = await fetch('/undo');
+      const json = await response.json();
+      this.setState({ cells: json['cells'] });
+    }
   }
 
   /**
@@ -85,14 +112,16 @@ class App extends React.Component<Props, GameState> {
        */
       return (
         <div key={index}>
-          <a href='/' onClick={this.play(cell.x, cell.y)}>
+          <a href='/' onClick={this.play(cell.x, cell.y)} title={`Play at position (${cell.x}, ${cell.y})`}>
             <BoardCell cell={cell}></BoardCell>
           </a>
         </div>
       )
     else
       return (
-        <div key={index}><BoardCell cell={cell}></BoardCell></div>
+        <div key={index} className="animate__animated animate__fadeIn">
+          <BoardCell cell={cell}></BoardCell>
+        </div>
       )
   }
 
@@ -124,14 +153,17 @@ class App extends React.Component<Props, GameState> {
      * @see https://reactjs.org/docs/introducing-jsx.html
      */
     return (
-      <div>
-        <div id="board">
+      <div className="App animate__animated animate__fadeIn">
+        <div id="board" className="animate__animated animate__slideInDown">
           {this.state.cells.map((cell, i) => this.createCell(cell, i))}
         </div>
-        <div id="bottombar">
-          <button onClick={/* get the function, not call the function */this.newGame}>New Game</button>
-          {/* Exercise: implement Undo function */}
-          <button onClick={this.undo}>Undo</button>
+        <div id="bottombar" className="animate__animated animate__slideInUp">
+          <button onClick={this.newGame}>
+            New Game
+          </button>
+          <button onClick={this.undo}>
+            Undo
+          </button>
         </div>
       </div>
     );

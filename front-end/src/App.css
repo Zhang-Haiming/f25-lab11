@@ -1,40 +1,116 @@
+/* Import animate.css */
+@import 'animate.css';
+
+/* Main container with fade-in animation */
+.App {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
 #board {
   display: grid;
-  grid-template-columns: auto auto auto;
-  background-color: #2196F3;
-  padding: 10px
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 5px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  margin: 20px auto;
+  width: fit-content;
+  animation: slideInDown 0.6s ease-out;
 }
 
 .cell {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px;
+  background: linear-gradient(145deg, #f0f0f0, #cacaca);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  padding: 0;
   font-size: 30px;
-  height: 25vmin;
+  width: 100px;
+  height: 100px;
   text-align: center;
+  border-radius: 10px;
+  margin: 5px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #333;
+  aspect-ratio: 1;
+}
+
+.cell:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(145deg, #ffffff, #e0e0e0);
+}
+
+.cell.animate__animated {
+  animation-duration: 0.5s;
+}
+
+.cell.new-move {
+  animation: pulse 0.6s ease-in-out;
+  background: linear-gradient(145deg, #ffeaa7, #fdcb6e);
 }
 
 #bottombar {
   height: 5vh;
+  margin: 20px auto;
+  max-width: 500px;
+  animation: slideInUp 0.6s ease-out 0.3s both;
 }
 
 #instructions {
   height: 5vh;
-  background-color: white;
-  padding: 0px;
-  margin: 0px;
+  background: linear-gradient(90deg, #74b9ff, #0984e3);
+  padding: 10px;
+  margin: 10px auto;
   text-align: center;
-  border: 1px solid black;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  max-width: 500px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 #bottombar button {
-  width: 50%;
-  /* height: 100%; */
-  margin: 0;
+  width: 48%;
+  height: 50px;
+  margin: 1%;
   padding: 0;
   position: relative;
-  float: left;
-  font-size: 2vw
+  font-size: 1.2em;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(145deg, #6c5ce7, #a29bfe);
+  color: white;
+  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+}
+
+#bottombar button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+  background: linear-gradient(145deg, #5f3dc4, #9775fa);
+}
+
+#bottombar button:active {
+  transform: translateY(0);
+  animation: pulse 0.3s ease-in-out;
+}
+
+#bottombar button:first-child {
+  background: linear-gradient(145deg, #00b894, #00cec9);
+  box-shadow: 0 4px 15px rgba(0, 184, 148, 0.3);
+}
+
+#bottombar button:first-child:hover {
+  background: linear-gradient(145deg, #00a085, #00b7b8);
+  box-shadow: 0 6px 20px rgba(0, 184, 148, 0.4);
 }
 
 html,
@@ -42,6 +118,55 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Arial', sans-serif;
 }
 
-.playable { background-color: red;}
+.playable { 
+  background: linear-gradient(145deg, #ff7675, #fd79a8);
+  /* Removed the constant pulsing animation */
+}
+
+/* Custom animations */
+@keyframes slideInDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
